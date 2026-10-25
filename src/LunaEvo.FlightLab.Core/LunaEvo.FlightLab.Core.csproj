@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The engine: the KSC tower, the agents' knowledge, running KSP Wingman agents, installing Wingman. No UI. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="LunaEvo.FlightLab.Core.Tests" />
+    <InternalsVisibleTo Include="LunaEvo.FlightLab.Tests" />
+    <InternalsVisibleTo Include="LunaEvo.FlightLab" />
+  </ItemGroup>
+
+</Project>

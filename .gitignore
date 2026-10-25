@@ -1,0 +1,15 @@
+bin/
+obj/
+.vs/
+.vscode/
+.idea/
+*.user
+TestResults/
+
+dist/
+
+# Private notes and real data never go in the repo.
+HANDOVER.md
+NEXT.md
+settings.json
+*.jsonl
