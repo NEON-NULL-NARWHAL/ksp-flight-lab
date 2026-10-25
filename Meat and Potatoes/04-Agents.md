@@ -96,6 +96,15 @@ Installing (downloads, unzip, the mod) is chapter 5.
   tower's sequence, Remove) and `Sessions_tell_each_agents_day`.
 - In the rig: Mission Control's results (its chapter 29, 2026-10-23 to 25: landings 1 m off the centerline, steep 4.5°
   and fast finals, explore with 12 places) are the bar Flight Lab's own rig runs have to match or beat.
+- **Flight Lab's first rig runs (2026-10-25)**, the same flags as Mission Control's last (two agents on gemma4:e4b, the
+  tower on chat, explore and approaches training): 7 landings, all 0-4 m off the centerline (four of them 0 m), the
+  approaches training learned (steep, fast and slow finals), 18 places explored. Two crashes, both explore flying into
+  mountains: KSP Wingman 0.12.1 fixed it (it checks the ground along the leg and 12 km ahead), checked in the rig (a
+  leg raised to 1,839 m, a turn back from a 2,496 m ridge, landed 1 m off). Flight Lab itself: no errors, and closing
+  it stopped both agents cleanly.
+- Seen there, still open: some debrief lessons say nothing useful ("stop closer than 4 m" after a 4 m landing,
+  "extend the flight past 5.8 minutes" after a crash), and a crashed explore flight's record carried the approach of
+  the flight before it.
 
 ## 4.5 Next
 
