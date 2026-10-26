@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- A logo of its own, "Flight path": a plane climbing away from the runway on a dashed track (the window, the exe and
+  the taskbar; a thicker version at 32 px and below). Before, it borrowed Mission Control's.
+
 ## 0.1.0 (2026-10-25)
 
 The first version: everything LUNA EVO Mission Control 2.18 did for AI pilots, in an app of its own.

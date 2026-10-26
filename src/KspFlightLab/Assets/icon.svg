@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 64 64">
+  <!-- KSP Flight Lab: "Flight path", a plane climbing away from the runway. Sources for icon.png and icon.ico
+       (Assets/make-icons.py); icon-small.svg is the thicker version used at 32 px and below. -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#151D13"/>
+  <path d="M10 52 H30" stroke="#E8F1E4" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M13 52 H15 M19 52 H21 M25 52 H27" stroke="#151D13" stroke-width="1.2"/>
+  <path d="M16 49 C 26 46, 34 36, 41 24" fill="none" stroke="#3FAE2A" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="1 4.2"/>
+  <g transform="translate(45 18) rotate(32) scale(1.15)">
+    <path d="M0 -10 L2.2 -2.5 L10 2 L10 4.5 L2.2 2.5 L1.4 8 L4.2 10.4 L4.2 12 L0 10.8 L-4.2 12 L-4.2 10.4 L-1.4 8 L-2.2 2.5 L-10 4.5 L-10 2 L-2.2 -2.5 Z" fill="#3FAE2A"/>
+  </g>
+</svg>

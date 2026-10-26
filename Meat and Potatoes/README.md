@@ -48,6 +48,7 @@ Symbols: 🗼 the tower · 🧠 knowledge · 🧑‍✈️ agents · 📦 instal
 | 🖥️ | `src/KspFlightLab/Program.cs` | Entry point, the command line (`StartupOptions`), error hooks | [06](06-App-UI.md) |
 | 🖥️ | `src/KspFlightLab/MainWindow.cs` | The rail, the pages, the shared tower and agents, refreshing, knowledge reads | [06](06-App-UI.md) |
 | 🖥️ | `src/KspFlightLab/App.axaml(.cs)` | Theme and styles; opens the window | [06](06-App-UI.md) |
+| 🖥️ | `src/KspFlightLab/Assets/icon.svg`, `icon-small.svg`, `make-icons.py` | The "Flight path" logo and its small-size version; `python make-icons.py <ffmpeg.exe>` remakes `icon.png` and `icon.ico` | [06](06-App-UI.md) |
 | 🖥️ | `src/KspFlightLab/ThemeManager.cs` | One accent → the light and dark palettes, applied live | [06](06-App-UI.md) |
 | 🖥️ | `src/KspFlightLab/Ui.cs` | Helpers: text, buttons, groups, rows, `WithId`, `Open` | [06](06-App-UI.md) |
 | 🧪 | `tests/KspFlightLab.Core.Tests/TowerTests.cs` | The tower's sequences and channel | [02](02-Tower.md) |
