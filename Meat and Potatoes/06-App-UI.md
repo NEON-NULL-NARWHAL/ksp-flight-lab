@@ -35,7 +35,7 @@ name. Flight Lab opens on Install while Wingman isn't installed, on Agents after
 
 ## 6.3 Tested
 
-`tests/LunaEvo.FlightLab.Tests`: headless Avalonia (xUnit v3). `UiHarness` opens the real window over throwaway
+`tests/KspFlightLab.Tests`: headless Avalonia (xUnit v3). `UiHarness` opens the real window over throwaway
 folders with a fake HTTP client and the tower off; `Pump()` runs the dispatcher and the 2 s refresh (headless timers
 don't tick); `Find<T>(id)`, `Click`, `Type` (text and Enter), `Description(id)` (a row's sublabel), `WaitFor` and
 `Await` (never block on `.GetResult()` in a UI test). `FakeAgent` stands in for a Wingman console.

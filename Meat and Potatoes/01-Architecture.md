@@ -1,6 +1,6 @@
 # 1. Architecture
 
-Flight Lab is the LUNA EVO family's app for AI pilots: it installs [KSP Wingman](https://github.com/NEON-NULL-NARWHAL/ksp-wingman),
+KSP Flight Lab is the app for AI pilots in KSP: it installs [KSP Wingman](https://github.com/NEON-NULL-NARWHAL/ksp-wingman),
 runs its agents, runs the KSC tower they talk to, and shows what they've learned. It's its own app on purpose (the
 owner's call, 2026-10-25): the tower, the skills and the tests only matter while agents fly, so they moved out of LUNA
 EVO Mission Control instead of making it bigger.
@@ -32,10 +32,10 @@ EVO Mission Control instead of making it bigger.
 
 | Project | What |
 |---|---|
-| `src/LunaEvo.FlightLab.Core` | No UI: the tower (`Tower/`), Wingman as a tool and its agents (`Wingman/`), installing (`Install/`: GitHub releases, verified downloads, KSP folders), the settings, the session logs, the one `HttpClient`. |
-| `src/LunaEvo.FlightLab` | The Avalonia 12 app: `MainWindow` (the rail and the shared tower and agents) and one class per page; every control is built in code, styled by `App.axaml` (the same styles as Mission Control). |
-| `tests/LunaEvo.FlightLab.Core.Tests` | xUnit 2: the tower, the knowledge, Wingman's install and agents, the settings and sessions, fuzz tests. |
-| `tests/LunaEvo.FlightLab.Tests` | Headless Avalonia UI tests (xUnit v3): every page driven like a user. |
+| `src/KspFlightLab.Core` | No UI: the tower (`Tower/`), Wingman as a tool and its agents (`Wingman/`), installing (`Install/`: GitHub releases, verified downloads, KSP folders), the settings, the session logs, the one `HttpClient`. |
+| `src/KspFlightLab` | The Avalonia 12 app: `MainWindow` (the rail and the shared tower and agents) and one class per page; every control is built in code, styled by `App.axaml` (the same styles as Mission Control). |
+| `tests/KspFlightLab.Core.Tests` | xUnit 2: the tower, the knowledge, Wingman's install and agents, the settings and sessions, fuzz tests. |
+| `tests/KspFlightLab.Tests` | Headless Avalonia UI tests (xUnit v3): every page driven like a user. |
 
 .NET 10, Avalonia 12.1.4, Windows and Linux (the Linux package comes later; the code already uses `KSP.x86_64`,
 `ProgramName` without `.exe`, and `~/.config` through `ApplicationData`).
@@ -44,10 +44,10 @@ EVO Mission Control instead of making it bigger.
 
 | What | Where |
 |---|---|
-| Settings | `%APPDATA%\LunaEvo\FlightLab\settings.json` (Linux: `~/.config/LunaEvo/FlightLab/`), or `--settings <file>` |
+| Settings | `%APPDATA%\KspFlightLab\settings.json` (Linux: `~/.config/KspFlightLab/`), or `--settings <file>` |
 | Logs: the tower's channel, each agent's sessions | `logs/` next to the settings |
 | Errors (anything unexpected, 5 MB at most) | `logs/errors.log` next to the settings |
-| KSP Wingman's installs | `%LOCALAPPDATA%\LunaEvo\FlightLab\Tools\KspWingman\<version>\` (with `--settings`: `Tools/` next to that file) |
+| KSP Wingman's installs | `%LOCALAPPDATA%\KspFlightLab\Tools\KspWingman\<version>\` (with `--settings`: `Tools/` next to that file) |
 | The agents' knowledge | `<server>/LunaEvo/agents/knowledge.json`, or `agents/knowledge.json` next to the settings |
 
 ## 1.4 Headers
@@ -55,7 +55,7 @@ EVO Mission Control instead of making it bigger.
 Every source file starts with a header pointing back here:
 
 ```csharp
-// Flight Lab · src/LunaEvo.FlightLab/MapPage.cs
+// Flight Lab · src/KspFlightLab/MapPage.cs
 // [UI] The map the agents explored (KSP Wingman's explore): every place around KSC on a grid...
 // Used by: MainWindow (rail: Knowledge → Explored map)
 // Guide:   Meat and Potatoes/03-Knowledge.md
@@ -66,9 +66,9 @@ Every source file starts with a header pointing back here:
 ## 1.5 Build and test
 
 ```
-dotnet build LunaEvo.FlightLab.slnx
-dotnet test LunaEvo.FlightLab.slnx
-dotnet run --project src/LunaEvo.FlightLab -- --settings D:\somewhere\settings.json
+dotnet build KspFlightLab.slnx
+dotnet test KspFlightLab.slnx
+dotnet run --project src/KspFlightLab -- --settings D:\somewhere\settings.json
 ```
 
 Tests never touch the network (`LabHttp.Client` is a `FakeHttp`), the real tools folder, or port 8920 (the tower

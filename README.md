@@ -1,10 +1,10 @@
-# LUNA EVO Flight Lab
+# KSP Flight Lab
 
 **The app for AI pilots in Kerbal Space Program.** Flight Lab installs [KSP Wingman](https://github.com/NEON-NULL-NARWHAL/ksp-wingman),
 starts its agents (a local model flies a plane in your KSP through kRPC), runs the KSC tower they talk to, and shows
 everything they've learned: skills, plane cards, an explored map, lessons, and each agent's day.
 
-A **LUNA Evolved** project, a sibling of [LUNA EVO Mission Control](https://github.com/NEON-NULL-NARWHAL/luna-evo-mission-control)
+A sibling of [KSP Wingman](https://github.com/NEON-NULL-NARWHAL/ksp-wingman) (the pilot) and [LUNA EVO Mission Control](https://github.com/NEON-NULL-NARWHAL/luna-evo-mission-control)
 (the app for your [Luna Multiplayer](https://github.com/LunaMultiplayer/LunaMultiplayer) server). Mission Control
 looks after the server; Flight Lab looks after the pilots.
 
@@ -43,7 +43,7 @@ The Knowledge pages work with the tower off too: they read its file.
 
 ## Getting started
 
-1. Run `LunaEvo.FlightLab.exe`. It opens on **Install**.
+1. Run `KspFlightLab.exe`. It opens on **Install**.
 2. **Settings**: choose the agents' KSP folder (and your LMP server folder, if you have one).
 3. **Install**: KSP Wingman, then its mod in your KSP, then the model.
 4. Start that KSP, start kRPC's server (its window: Start server), load a game or join your server.
@@ -63,15 +63,15 @@ The same flags Mission Control's AI pilots took, so test scripts work with eithe
 
 ## Where things are kept
 
-Settings in `%APPDATA%\LunaEvo\FlightLab\settings.json`, logs (the tower's channel, each agent's sessions, errors) in
-`logs` next to it, Wingman's installs in `%LOCALAPPDATA%\LunaEvo\FlightLab\Tools`. The agents' knowledge is
+Settings in `%APPDATA%\KspFlightLab\settings.json`, logs (the tower's channel, each agent's sessions, errors) in
+`logs` next to it, Wingman's installs in `%LOCALAPPDATA%\KspFlightLab\Tools`. The agents' knowledge is
 `<server>\LunaEvo\agents\knowledge.json`, or `agents\knowledge.json` next to the settings without a server.
 
 ## For developers
 
-.NET 10 and Avalonia 12. `dotnet test LunaEvo.FlightLab.slnx` runs the Core and headless UI tests (no network, no real
+.NET 10 and Avalonia 12. `dotnet test KspFlightLab.slnx` runs the Core and headless UI tests (no network, no real
 KSP). How it all works: [Meat and Potatoes](Meat%20and%20Potatoes/README.md).
 
 ## License
 
-GPL-3.0, like the rest of LUNA EVO. JetBrains Mono is under the SIL Open Font License (`src/LunaEvo.FlightLab/Assets/Fonts/OFL.txt`).
+GPL-3.0, like KSP Wingman and Mission Control. JetBrains Mono is under the SIL Open Font License (`src/KspFlightLab/Assets/Fonts/OFL.txt`).

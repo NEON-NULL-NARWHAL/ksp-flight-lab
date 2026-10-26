@@ -1,0 +1,431 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="KspFlightLab.App"
+             RequestedThemeVariant="Dark">
+
+  <!--
+    Look and feel borrowed from NOMM (Nuclear Option Mod Manager): Material 3 "expressive" colors from a
+    vivid green seed, JetBrains Mono everywhere, a navigation rail, and settings shown as rounded groups
+    of rows with a label and a muted description line.
+  -->
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+          <SolidColorBrush x:Key="Background" Color="#10140E" />
+          <SolidColorBrush x:Key="SurfaceContainer" Color="#1A1F17" />
+          <SolidColorBrush x:Key="SurfaceVariant" Color="#232921" />
+          <SolidColorBrush x:Key="RowHover" Color="#2D3429" />
+          <SolidColorBrush x:Key="Primary" Color="#8FD873" />
+          <SolidColorBrush x:Key="OnPrimary" Color="#0D3900" />
+          <SolidColorBrush x:Key="PrimaryContainer" Color="#255315" />
+          <SolidColorBrush x:Key="OnPrimaryContainer" Color="#AAF58C" />
+          <SolidColorBrush x:Key="OnSurface" Color="#E0E4D8" />
+          <SolidColorBrush x:Key="OnSurfaceVariant" Color="#A3AA9B" />
+          <SolidColorBrush x:Key="Outline" Color="#8C9385" />
+          <SolidColorBrush x:Key="OutlineVariant" Color="#3A4136" />
+          <SolidColorBrush x:Key="Error" Color="#FFB4AB" />
+          <SolidColorBrush x:Key="ErrorContainer" Color="#93000A" />
+          <SolidColorBrush x:Key="OnErrorContainer" Color="#FFDAD6" />
+          <SolidColorBrush x:Key="Warning" Color="#E8C26A" />
+          <SolidColorBrush x:Key="WarningContainer" Color="#3F3200" />
+          <SolidColorBrush x:Key="OnWarningContainer" Color="#FFE08A" />
+          <SolidColorBrush x:Key="LogChat" Color="#7FD3E8" />
+          <SolidColorBrush x:Key="LogNetwork" Color="#9DB0FF" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+          <SolidColorBrush x:Key="Background" Color="#F7FBF0" />
+          <SolidColorBrush x:Key="SurfaceContainer" Color="#ECEFE5" />
+          <SolidColorBrush x:Key="SurfaceVariant" Color="#E4E9DC" />
+          <SolidColorBrush x:Key="RowHover" Color="#D8DFCF" />
+          <SolidColorBrush x:Key="Primary" Color="#2E6B14" />
+          <SolidColorBrush x:Key="OnPrimary" Color="#FFFFFF" />
+          <SolidColorBrush x:Key="PrimaryContainer" Color="#B0F28F" />
+          <SolidColorBrush x:Key="OnPrimaryContainer" Color="#072100" />
+          <SolidColorBrush x:Key="OnSurface" Color="#191D16" />
+          <SolidColorBrush x:Key="OnSurfaceVariant" Color="#4A5045" />
+          <SolidColorBrush x:Key="Outline" Color="#73796D" />
+          <SolidColorBrush x:Key="OutlineVariant" Color="#C3C8BB" />
+          <SolidColorBrush x:Key="Error" Color="#BA1A1A" />
+          <SolidColorBrush x:Key="ErrorContainer" Color="#FFDAD6" />
+          <SolidColorBrush x:Key="OnErrorContainer" Color="#410002" />
+          <SolidColorBrush x:Key="Warning" Color="#7A5900" />
+          <SolidColorBrush x:Key="WarningContainer" Color="#FFDF9E" />
+          <SolidColorBrush x:Key="OnWarningContainer" Color="#261A00" />
+          <SolidColorBrush x:Key="LogChat" Color="#00687A" />
+          <SolidColorBrush x:Key="LogNetwork" Color="#3C4FB0" />
+        </ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
+
+      <!-- Material Symbols (Apache 2.0) -->
+      <StreamGeometry x:Key="IconRestart">M12 5V2L8 6l4 4V7c3.31 0 6 2.69 6 6 0 2.97-2.17 5.43-5 5.91v2.02c3.95-.49 7-3.85 7-7.93 0-4.42-3.58-8-8-8zm-6 8c0-1.65.67-3.15 1.76-4.24L6.34 7.34C4.9 8.79 4 10.79 4 13c0 4.08 3.05 7.44 7 7.93v-2.02c-2.83-.48-5-2.94-5-5.91z</StreamGeometry>
+      <StreamGeometry x:Key="IconSave">M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z</StreamGeometry>
+      <StreamGeometry x:Key="IconPlay">M8 5v14l11-7z</StreamGeometry>
+      <StreamGeometry x:Key="IconStop">M6 6h12v12H6z</StreamGeometry>
+      <StreamGeometry x:Key="IconFolder">M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z</StreamGeometry>
+    </ResourceDictionary>
+  </Application.Resources>
+
+  <Application.Styles>
+    <FluentTheme>
+      <FluentTheme.Palettes>
+        <ColorPaletteResources x:Key="Dark" Accent="#5FB842" RegionColor="#10140E" />
+        <ColorPaletteResources x:Key="Light" Accent="#2E6B14" RegionColor="#F7FBF0" />
+      </FluentTheme.Palettes>
+    </FluentTheme>
+    <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
+
+    <Style Selector="Window">
+      <Setter Property="Background" Value="{DynamicResource Background}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    </Style>
+
+    <!-- Typography -->
+    <Style Selector="TextBlock.headline">
+      <Setter Property="FontSize" Value="24" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    </Style>
+    <Style Selector="TextBlock.title">
+      <Setter Property="FontSize" Value="18" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    </Style>
+    <Style Selector="TextBlock.brand">
+      <Setter Property="FontSize" Value="20" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Foreground" Value="{DynamicResource Primary}" />
+    </Style>
+    <Style Selector="TextBlock.groupTitle">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Foreground" Value="{DynamicResource Primary}" />
+      <Setter Property="Margin" Value="4,0,0,0" />
+    </Style>
+    <Style Selector="TextBlock.label">
+      <Setter Property="FontSize" Value="15" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style Selector="TextBlock.sublabel">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style Selector="TextBlock.error">
+      <Setter Property="Foreground" Value="{DynamicResource Error}" />
+    </Style>
+    <Style Selector="TextBlock.warning">
+      <Setter Property="Foreground" Value="{DynamicResource Warning}" />
+    </Style>
+    <Style Selector="TextBlock.modified">
+      <Setter Property="Foreground" Value="{DynamicResource Primary}" />
+    </Style>
+
+    <!-- Groups and rows -->
+    <Style Selector="Border.group">
+      <Setter Property="Background" Value="{DynamicResource SurfaceVariant}" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Padding" Value="4" />
+    </Style>
+    <Style Selector="Border.row">
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="12,10" />
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="Border.row:pointerover">
+      <Setter Property="Background" Value="{DynamicResource RowHover}" />
+    </Style>
+    <Style Selector="Border.row.inactive TextBlock.label">
+      <Setter Property="Opacity" Value="0.5" />
+    </Style>
+    <!-- Security alerts on the Players page (admin password guessing, banned players trying to join). -->
+    <Style Selector="Border.row.alert">
+      <Setter Property="BorderBrush" Value="{DynamicResource Error}" />
+      <Setter Property="BorderThickness" Value="3,0,0,0" />
+    </Style>
+    <Style Selector="Border.row.alert TextBlock.label">
+      <Setter Property="Foreground" Value="{DynamicResource Error}" />
+    </Style>
+    <Style Selector="Border.banner">
+      <Setter Property="Background" Value="{DynamicResource WarningContainer}" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Padding" Value="14,10" />
+    </Style>
+    <Style Selector="Border.banner TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource OnWarningContainer}" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!-- Navigation rail -->
+    <Style Selector="Button.nav">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="CornerRadius" Value="18" />
+      <Setter Property="Padding" Value="16,6" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style Selector="Button.nav:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource RowHover}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    </Style>
+    <Style Selector="Button.nav.selected /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource PrimaryContainer}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnPrimaryContainer}" />
+    </Style>
+    <!-- Tabs inside a page (TabSet): pills like the rail, side by side -->
+    <Style Selector="Button.tab">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
+      <Setter Property="CornerRadius" Value="16" />
+      <Setter Property="Padding" Value="14,6" />
+      <Setter Property="Margin" Value="0,0,4,6" />
+      <Setter Property="FontSize" Value="13" />
+    </Style>
+    <Style Selector="Button.tab:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource RowHover}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    </Style>
+    <Style Selector="Button.tab.selected /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource PrimaryContainer}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnPrimaryContainer}" />
+    </Style>
+    <Style Selector="TextBlock.tabLabel">
+      <Setter Property="Foreground" Value="{DynamicResource Primary}" />
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="Margin" Value="0,0,0,6" />
+    </Style>
+    <Style Selector="Border.badge">
+      <Setter Property="Background" Value="{DynamicResource ErrorContainer}" />
+      <Setter Property="CornerRadius" Value="9" />
+      <Setter Property="MinWidth" Value="18" />
+      <Setter Property="Height" Value="18" />
+      <Setter Property="Padding" Value="5,0" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Border.badge TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource OnErrorContainer}" />
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Ellipse.dirtyDot">
+      <Setter Property="Fill" Value="{DynamicResource Primary}" />
+      <Setter Property="Width" Value="8" />
+      <Setter Property="Height" Value="8" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="Ellipse.statusDot">
+      <Setter Property="Fill" Value="{DynamicResource Primary}" />
+    </Style>
+    <Style Selector="Ellipse.statusDot.running">
+      <Setter Property="Fill" Value="{DynamicResource Warning}" />
+    </Style>
+
+    <!-- Floating action button (NOMM's play button) -->
+    <Style Selector="Button.fab">
+      <Setter Property="Background" Value="{DynamicResource PrimaryContainer}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnPrimaryContainer}" />
+      <Setter Property="CornerRadius" Value="16" />
+      <Setter Property="Padding" Value="18,14" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="FontSize" Value="15" />
+    </Style>
+    <Style Selector="Button.fab:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource Primary}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnPrimary}" />
+    </Style>
+    <Style Selector="Button.fab:disabled /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource SurfaceVariant}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
+    </Style>
+    <Style Selector="Button.fab PathIcon, Button.text PathIcon">
+      <Setter Property="Width" Value="18" />
+      <Setter Property="Height" Value="18" />
+    </Style>
+
+    <!-- Quiet buttons: text actions and the per-row reset -->
+    <Style Selector="Button.text">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource Primary}" />
+      <Setter Property="CornerRadius" Value="18" />
+      <Setter Property="Padding" Value="14,8" />
+    </Style>
+    <Style Selector="Button.text:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource RowHover}" />
+      <Setter Property="Foreground" Value="{DynamicResource Primary}" />
+    </Style>
+    <Style Selector="Button.text:disabled /template/ ContentPresenter">
+      <Setter Property="Foreground" Value="{DynamicResource Outline}" />
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="Button.icon">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
+      <Setter Property="CornerRadius" Value="16" />
+      <Setter Property="Width" Value="32" />
+      <Setter Property="Height" Value="32" />
+      <Setter Property="Padding" Value="7" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Button.icon:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource RowHover}" />
+      <Setter Property="Foreground" Value="{DynamicResource Primary}" />
+    </Style>
+    <Style Selector="Button.icon:disabled">
+      <Setter Property="Opacity" Value="0" />
+    </Style>
+
+    <!-- Inputs -->
+    <Style Selector="TextBox, NumericUpDown, ComboBox">
+      <Setter Property="CornerRadius" Value="8" />
+    </Style>
+    <Style Selector="ListBox.entries">
+      <Setter Property="Background" Value="{DynamicResource SurfaceContainer}" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="4" />
+    </Style>
+    <Style Selector="ListBox.entries ListBoxItem">
+      <Setter Property="Padding" Value="10,4" />
+      <Setter Property="MinHeight" Value="28" />
+      <Setter Property="CornerRadius" Value="6" />
+    </Style>
+    <!-- Server console -->
+    <Style Selector="Border.card">
+      <Setter Property="Background" Value="{DynamicResource SurfaceVariant}" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Padding" Value="14,10" />
+      <Setter Property="MinWidth" Value="150" />
+      <Setter Property="Margin" Value="0,0,8,8" />
+    </Style>
+    <!-- Clickable cards (Server Console, Players): same look as Border.card, lighter on hover. -->
+    <Style Selector="Button.card">
+      <Setter Property="Background" Value="{DynamicResource SurfaceVariant}" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Padding" Value="14,10" />
+      <Setter Property="MinWidth" Value="150" />
+      <Setter Property="Margin" Value="0,0,8,8" />
+      <Setter Property="HorizontalContentAlignment" Value="Left" />
+      <Setter Property="Cursor" Value="Hand" />
+    </Style>
+    <Style Selector="Button.card /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource SurfaceVariant}" />
+    </Style>
+    <Style Selector="Button.card:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource SurfaceContainer}" />
+    </Style>
+    <Style Selector="Button.card.selected /template/ ContentPresenter">
+      <Setter Property="BorderBrush" Value="{DynamicResource Primary}" />
+      <Setter Property="BorderThickness" Value="2" />
+    </Style>
+    <Style Selector="Button.card TextBlock.value">
+      <Setter Property="FontSize" Value="15" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    </Style>
+    <Style Selector="Border.card TextBlock.value">
+      <Setter Property="FontSize" Value="15" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    </Style>
+    <Style Selector="Border.console">
+      <Setter Property="Background" Value="{DynamicResource SurfaceContainer}" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Padding" Value="4" />
+    </Style>
+    <Style Selector="ListBox.console">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="ListBox.console ListBoxItem">
+      <Setter Property="Padding" Value="8,1" />
+      <Setter Property="MinHeight" Value="0" />
+    </Style>
+    <Style Selector="ListBox.console TextBlock, ListBox.console SelectableTextBlock">
+      <Setter Property="FontSize" Value="12.5" />
+    </Style>
+    <Style Selector="TextBlock.logTime">
+      <Setter Property="Foreground" Value="{DynamicResource Outline}" />
+    </Style>
+    <Style Selector=":is(TextBlock).Normal, :is(TextBlock).Info">
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    </Style>
+    <Style Selector=":is(TextBlock).Debug">
+      <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
+    </Style>
+    <Style Selector=":is(TextBlock).Warning">
+      <Setter Property="Foreground" Value="{DynamicResource Warning}" />
+    </Style>
+    <Style Selector=":is(TextBlock).Error, :is(TextBlock).Fatal">
+      <Setter Property="Foreground" Value="{DynamicResource Error}" />
+    </Style>
+    <Style Selector=":is(TextBlock).Fatal">
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style Selector=":is(TextBlock).Chat">
+      <Setter Property="Foreground" Value="{DynamicResource LogChat}" />
+    </Style>
+    <Style Selector=":is(TextBlock).Network">
+      <Setter Property="Foreground" Value="{DynamicResource LogNetwork}" />
+    </Style>
+    <Style Selector=":is(TextBlock).Manager">
+      <Setter Property="Foreground" Value="{DynamicResource Primary}" />
+    </Style>
+
+    <!-- Filter chips and segmented switches -->
+    <Style Selector="ToggleButton.chip">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariant}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="10,4" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
+      <Setter Property="Margin" Value="0,0,6,6" />
+    </Style>
+    <Style Selector="ToggleButton.chip:checked /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource PrimaryContainer}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnPrimaryContainer}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource PrimaryContainer}" />
+    </Style>
+    <Style Selector="ToggleButton.chip:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource RowHover}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    </Style>
+    <Style Selector="ToggleButton.chip:checked:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource PrimaryContainer}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnPrimaryContainer}" />
+    </Style>
+    <Style Selector="Button.chip">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariant}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="10,4" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Foreground" Value="{DynamicResource Primary}" />
+      <Setter Property="Margin" Value="0,0,6,6" />
+    </Style>
+    <Style Selector="Button.chip:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource RowHover}" />
+      <Setter Property="Foreground" Value="{DynamicResource Primary}" />
+    </Style>
+    <Style Selector="Button.swatch">
+      <Setter Property="Width" Value="34" />
+      <Setter Property="Height" Value="34" />
+      <Setter Property="CornerRadius" Value="17" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="BorderThickness" Value="2" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Margin" Value="0,0,8,8" />
+    </Style>
+    <Style Selector="Button.swatch.selected">
+      <Setter Property="BorderBrush" Value="{DynamicResource OnSurface}" />
+    </Style>
+    <Style Selector="Button.swatch:pointerover /template/ ContentPresenter">
+      <Setter Property="BorderBrush" Value="{DynamicResource OnSurfaceVariant}" />
+    </Style>
+
+    <Style Selector="ScrollBar">
+      <Setter Property="AllowAutoHide" Value="True" />
+    </Style>
+  </Application.Styles>
+</Application>

@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/KspFlightLab.Core/KspFlightLab.Core.csproj" />
+    <Project Path="src/KspFlightLab/KspFlightLab.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/KspFlightLab.Core.Tests/KspFlightLab.Core.Tests.csproj" />
+    <Project Path="tests/KspFlightLab.Tests/KspFlightLab.Tests.csproj" />
+  </Folder>
+</Solution>
