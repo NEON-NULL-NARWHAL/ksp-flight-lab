@@ -29,7 +29,10 @@ internal sealed class SettingsPage
     private readonly ComboBox _theme = new ComboBox { ItemsSource = new[] { "Dark", "Light", "System" }, Width = 160 }.WithId("settings/theme");
     private readonly TextBlock _result = Ui.Text("", "sublabel").WithId("settings/result");
     private readonly StackPanel _where = new() { Spacing = 2 };
-    private bool _updating;
+    private readonly StackPanel _updates = new() { Spacing = 2 };
+    private readonly ToggleSwitch _checkUpdates = new ToggleSwitch { OnContent = "", OffContent = "", MinWidth = 0 }.WithId("settings/checkUpdates");
+    private string? _updateMessage;
+    private bool _updating, _busy;
 
     public SettingsPage(MainWindow host)
     {
@@ -107,12 +110,21 @@ internal sealed class SettingsPage
         lookBody.Children.Add(new StackPanel { Spacing = 8, Margin = new Thickness(12, 4, 12, 12), Children = { swatches, reset } });
         lookBody.Children.Add(Ui.Row("Theme", "Dark, light, or follow the system.", _theme));
 
+        var (updates, updatesBody, _) = Ui.Group("Updates");
+        _checkUpdates.IsCheckedChanged += (_, _) =>
+        {
+            if (!_updating)
+                _host.Save(_host.Settings with { CheckForUpdates = _checkUpdates.IsChecked == true });
+        };
+        updatesBody.Children.Add(Ui.Row("Check when Flight Lab starts", "Asks GitHub for a newer Flight Lab (its releases, checked against GitHub's checksum).", _checkUpdates));
+        updatesBody.Children.Add(_updates);
+
         var (where, whereBody, _) = Ui.Group("Where things are kept");
         whereBody.Children.Add(_where);
 
         View = new ScrollViewer
         {
-            Content = new StackPanel { Margin = new Thickness(28, 20, 28, 28), Spacing = 16, Children = { header, _result, folders, models, tower, look, where } },
+            Content = new StackPanel { Margin = new Thickness(28, 20, 28, 28), Spacing = 16, Children = { header, _result, folders, models, tower, look, updates, where } },
         };
     }
 
@@ -132,7 +144,28 @@ internal sealed class SettingsPage
         _towerChat.IsChecked = s.TowerChat;
         _hex.Text = s.AccentColor;
         _theme.SelectedItem = s.Theme;
+        _checkUpdates.IsChecked = s.CheckForUpdates;
         _updating = false;
+
+        _updates.Children.Clear();
+        var check = Ui.Button("Check now", "text").WithId("settings/checkNow");
+        check.IsEnabled = !_busy;
+        check.Click += async (_, _) => await CheckNowAsync();
+        var state = _host.AvailableAppUpdate is { } update
+            ? $"Flight Lab {update.Version} is available (you have {MainWindow.AppVersion})."
+            : _host.AppUpdateProblem ?? $"Flight Lab {MainWindow.AppVersion}.";
+        _updates.Children.Add(Ui.Row("This version", state, check).WithId("settings/updateStatus"));
+        if (_host.AvailableAppUpdate is { } available)
+        {
+            var install = Ui.Button("Update and restart", "fab").WithId("settings/updateNow");
+            install.IsEnabled = !_busy;
+            install.Click += async (_, _) => await UpdateNowAsync();
+            _updates.Children.Add(Ui.Row($"What's new in {available.Version}", available.Release.Notes.Length > 0 ? Shorten(available.Release.Notes) : available.Release.PageUrl,
+                install).WithId("settings/updateNotes"));
+        }
+        if (_updateMessage != null)
+            _updates.Children.Add(Ui.Text(_updateMessage, "sublabel").WithId("settings/updateResult"));
+        _updates.Children.Add(Ui.Row("Every version", AppUpdater.ReleasesPage, OpenButton("settings/releases", AppUpdater.ReleasesPage)));
 
         _where.Children.Clear();
         _where.Children.Add(Ui.Row("Agents' knowledge", _host.KnowledgePath, null).WithId("settings/knowledgePath"));
@@ -246,14 +279,47 @@ internal sealed class SettingsPage
         Refresh();
     }
 
-    private static Button OpenButton(string id, string folder)
+    private static Button OpenButton(string id, string target)
     {
         var button = Ui.Button("Open", "text").WithId(id);
         button.Click += (_, _) =>
         {
-            Directory.CreateDirectory(folder);
-            Ui.Open(folder);
+            if (!target.StartsWith("https://", StringComparison.Ordinal))
+                Directory.CreateDirectory(target);
+            Ui.Open(target);
         };
         return button;
+    }
+
+    internal async Task CheckNowAsync()
+    {
+        _busy = true;
+        _updateMessage = null;
+        Refresh();
+        await _host.CheckForAppUpdateAsync();
+        _busy = false;
+        _updateMessage = _host.AvailableAppUpdate == null && _host.AppUpdateProblem == null ? "This is the newest Flight Lab." : null;
+        Refresh();
+    }
+
+    internal async Task UpdateNowAsync()
+    {
+        _busy = true;
+        Refresh();
+        var progress = new Progress<double>(p =>
+        {
+            _updateMessage = $"Downloading: {p:P0}";
+            Refresh();
+        });
+        _updateMessage = await _host.UpdateAppAsync(progress);
+        _busy = false;
+        Refresh();
+    }
+
+    /// <summary>The release notes' first lines, for the row (the whole notes are on GitHub).</summary>
+    private static string Shorten(string notes)
+    {
+        var text = string.Join(" ", notes.Split('\n').Select(l => l.Trim().TrimStart('#', '-', '*', ' ')).Where(l => l.Length > 0));
+        return text.Length > 300 ? text[..300] + "…" : text;
     }
 }

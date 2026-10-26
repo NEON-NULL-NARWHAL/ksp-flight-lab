@@ -40,6 +40,8 @@ Symbols: 🗼 the tower · 🧠 knowledge · 🧑‍✈️ agents · 📦 instal
 | 📦 | `src/KspFlightLab.Core/Install/VerifiedDownload.cs` | Downloads checked: GitHub hosts, size, SHA-256 | [05](05-Install-And-Settings.md) |
 | 📦 | `src/KspFlightLab.Core/Install/KspFolder.cs` | Is it a KSP, is it running | [05](05-Install-And-Settings.md) |
 | 📦 | `src/KspFlightLab.Core/LabSettings.cs` | The settings record and store, knowledge and radio paths | [05](05-Install-And-Settings.md) |
+| 📦 | `src/KspFlightLab.Core/Install/AppUpdater.cs` | Flight Lab updating itself: check, verified download, the exe swap | [05](05-Install-And-Settings.md) |
+| 📦 | `publish.ps1`, `release.ps1` | The single-file exe; a GitHub release with it | [05](05-Install-And-Settings.md) |
 | 📦 | `src/KspFlightLab.Core/LabHttp.cs` | The one `HttpClient`, and `ErrorLog` | [05](05-Install-And-Settings.md) |
 | 📦 | `src/KspFlightLab/SetupPage.cs` | Setup → Install | [05](05-Install-And-Settings.md) |
 | 📦 | `src/KspFlightLab/SettingsPage.cs` | Setup → Settings | [05](05-Install-And-Settings.md) |
@@ -51,6 +53,7 @@ Symbols: 🗼 the tower · 🧠 knowledge · 🧑‍✈️ agents · 📦 instal
 | 🧪 | `tests/KspFlightLab.Core.Tests/TowerTests.cs` | The tower's sequences and channel | [02](02-Tower.md) |
 | 🧪 | `tests/KspFlightLab.Core.Tests/KnowledgeTests.cs` | The knowledge store and its endpoints | [03](03-Knowledge.md) |
 | 🧪 | `tests/KspFlightLab.Core.Tests/WingmanTests.cs` | Wingman's install, the bridge, Ollama, agents | [04](04-Agents.md) |
+| 🧪 | `tests/KspFlightLab.Core.Tests/AppUpdaterTests.cs` | Updating itself: picking, verifying, swapping | [05](05-Install-And-Settings.md) |
 | 🧪 | `tests/KspFlightLab.Core.Tests/LabTests.cs` | Settings, paths, sessions, KSP folders, the radio file | [05](05-Install-And-Settings.md) |
 | 🧪 | `tests/KspFlightLab.Core.Tests/FuzzTests.cs` | Every outside-text parser, fuzzed | [01](01-Architecture.md) |
 | 🧪 | `tests/KspFlightLab.Core.Tests/FakeHttp.cs`, `TestFolders.cs` | No network; throwaway folders, a fake KSP | [01](01-Architecture.md) |

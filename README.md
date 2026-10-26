@@ -43,11 +43,19 @@ The Knowledge pages work with the tower off too: they read its file.
 
 ## Getting started
 
-1. Run `KspFlightLab.exe`. It opens on **Install**.
+1. Download `KspFlightLab.exe` from the [latest release](https://github.com/NEON-NULL-NARWHAL/ksp-flight-lab/releases/latest)
+   (one file for Windows 10/11 x64, nothing to install; it isn't code-signed, so SmartScreen may ask the first time).
+   Run it anywhere. It opens on **Install**.
 2. **Settings**: choose the agents' KSP folder (and your LMP server folder, if you have one).
 3. **Install**: KSP Wingman, then its mod in your KSP, then the model.
 4. Start that KSP, start kRPC's server (its window: Start server), load a game or join your server.
 5. **Agents**: Start the agent. Try "take off and fly a circuit", then "land at KSC", or Train → Landings.
+
+## Updates
+
+Flight Lab checks its GitHub releases when it starts (Settings → Updates → "Check when Flight Lab starts"),
+and the footer says when a newer one is out. **Update and restart** downloads it, checks it against GitHub's
+SHA-256, swaps it in for the running exe and restarts with the same options. KSP Wingman updates from Setup → Install.
 
 ## Command line
 

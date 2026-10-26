@@ -10,6 +10,7 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Threading;
 using KspFlightLab.Core;
+using KspFlightLab.Core.Install;
 using KspFlightLab.Core.Wingman;
 
 namespace KspFlightLab;
@@ -130,11 +131,84 @@ internal sealed class MainWindow : Window
         Navigate(WingmanTools.Installed() == null ? SetupKey : AgentsKey);
         if (options.Agents.Count > 0)
             Agents.StartFromCommandLine(options.Agents, options.Planner, options.Free, options.Train);
+        // After an update: the previous version's exe goes (it may still be closing, so again a little later).
+        var exe = CurrentExe;
+        AppUpdater.CleanUp(exe);
+        _ = Task.Delay(TimeSpan.FromSeconds(15)).ContinueWith(_ => AppUpdater.CleanUp(exe), TaskScheduler.Default);
+        if (Settings.CheckForUpdates)
+            _ = CheckForAppUpdateAsync();
         Closing += (_, _) =>
         {
             Agents.StopAll();
             Tower.Stop();
         };
+    }
+
+    /// <summary>A newer Flight Lab found on GitHub, if any.</summary>
+    internal AppUpdate? AvailableAppUpdate { get; private set; }
+
+    /// <summary>Why the last update check couldn't tell (offline, private repository...), or null.</summary>
+    internal string? AppUpdateProblem { get; private set; }
+
+    /// <summary>The exe that updates replace. Tests point it at a throwaway file.</summary>
+    internal static string? CurrentExe { get; set; } = Environment.ProcessPath;
+
+    /// <summary>Starts the updated exe with the same options. Tests replace it so nothing is started.</summary>
+    internal static Func<string, IReadOnlyList<string>, bool> StartNewVersion { get; set; } = (exe, arguments) =>
+    {
+        var info = new System.Diagnostics.ProcessStartInfo(exe) { UseShellExecute = false, WorkingDirectory = Path.GetDirectoryName(exe)! };
+        foreach (var argument in arguments)
+            info.ArgumentList.Add(argument);
+        return System.Diagnostics.Process.Start(info) != null;
+    };
+
+    /// <summary>Asks GitHub for a newer Flight Lab (at startup when the settings say so, or Settings → Check now).</summary>
+    internal async Task CheckForAppUpdateAsync()
+    {
+        AppUpdateProblem = null;
+        try
+        {
+            AvailableAppUpdate = await new AppUpdater(LabHttp.Client).CheckAsync(Version.Parse(AppVersion));
+        }
+        catch (AppUpdateUnavailableException e)
+        {
+            AppUpdateProblem = e.Message;
+        }
+        catch (Exception e) when (e is HttpRequestException or TaskCanceledException or System.Text.Json.JsonException)
+        {
+            AppUpdateProblem = "Couldn't reach GitHub to check for updates.";
+        }
+        Changed();
+        RefreshCurrent();
+    }
+
+    /// <summary>
+    /// Downloads and installs the newer Flight Lab, then restarts into it with the same options. Running agents are
+    /// asked to quit first (closing does that). Returns a message if it didn't restart.
+    /// </summary>
+    internal async Task<string> UpdateAppAsync(IProgress<double>? progress = null)
+    {
+        if (AvailableAppUpdate is not { } update)
+            return "There's no update to install.";
+        if (!AppUpdater.CanUpdateItself(CurrentExe))
+            return $"This copy of Flight Lab can't replace itself (it's a development build). Download {update.Release.Tag} from {AppUpdater.ReleasesPage}.";
+        try
+        {
+            var downloaded = await new AppUpdater(LabHttp.Client).DownloadAsync(update, progress);
+            await Task.Run(() => AppUpdater.Install(downloaded, CurrentExe!, update));
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return $"Flight Lab can't write to {Path.GetDirectoryName(CurrentExe)}. Move it to a folder you can write to, or download {update.Release.Tag} from {AppUpdater.ReleasesPage}.";
+        }
+        catch (Exception e) when (e is DownloadVerificationException or HttpRequestException or IOException or TaskCanceledException)
+        {
+            return $"Update failed: {e.Message} Flight Lab {AppVersion} is still installed.";
+        }
+        if (!StartNewVersion(CurrentExe!, Environment.GetCommandLineArgs().Skip(1).ToList()))
+            return $"Updated to {update.Release.Tag}, but it didn't start. Start Flight Lab again.";
+        Close();
+        return $"Updated to {update.Release.Tag}. Restarting...";
     }
 
     internal string SettingsPath { get; }
@@ -255,7 +329,8 @@ internal sealed class MainWindow : Window
         _towerText.Text = on ? $"Tower on · localhost:{Tower.Server!.Port}" : "Tower off";
         var install = WingmanTools.Installed();
         var server = Settings.ServerFolder is { Length: > 0 } s ? Path.GetFileName(s.TrimEnd(Path.DirectorySeparatorChar)) : "no server chosen";
-        _versionsText.Text = $"Flight Lab {AppVersion} · Wingman {install?.Version ?? "not installed"} · {Agents.Host.Agents.Count(a => a.Running)} agent(s) · server: {server}";
+        _versionsText.Text = $"Flight Lab {AppVersion} · Wingman {install?.Version ?? "not installed"} · {Agents.Host.Agents.Count(a => a.Running)} agent(s) · server: {server}" +
+            (AvailableAppUpdate is { } update ? $" · Flight Lab {update.Version} is available (Settings)" : "");
     }
 
     /// <summary>Flight Lab's version (from its assembly, set in the csproj).</summary>

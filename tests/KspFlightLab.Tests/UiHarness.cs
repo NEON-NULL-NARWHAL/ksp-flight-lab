@@ -44,6 +44,9 @@ internal sealed class UiHarness : IDisposable
         Web = new FakeHttp();
         LabHttp.Client = Web.Client;
         ErrorLog.Path = Path.Combine(Folder, "errors.log");
+        // The test host must never be "updated" or restarted (an update test points CurrentExe at a throwaway file).
+        MainWindow.CurrentExe = null;
+        MainWindow.StartNewVersion = (_, _) => throw new InvalidOperationException("A test tried to start Flight Lab without faking it.");
         Window = new MainWindow(new StartupOptions(SettingsPath: SettingsPath));
         Window.Show();
         Pump();

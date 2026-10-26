@@ -298,6 +298,48 @@ public class PageTests
     }
 
     [AvaloniaFact]
+    public void Settings_finds_a_newer_flight_lab_and_updates_itself()
+    {
+        using var ui = new UiHarness();
+        Assert.Contains("may be private", ui.Window.AppUpdateProblem); // the startup check: the fake GitHub has no releases yet
+        var exe = System.Text.Encoding.ASCII.GetBytes("MZ new Flight Lab");
+        const string url = "https://github.com/NEON-NULL-NARWHAL/ksp-flight-lab/releases/download/v9.9.9/KspFlightLab.exe";
+        ui.Web.Bytes(url, exe).Text(KspFlightLab.Core.Install.AppUpdater.ReleasesUrl, JsonSerializer.Serialize(new[]
+        {
+            new
+            {
+                tag_name = "v9.9.9", prerelease = false, draft = false, html_url = "https://github.com/x", published_at = "2026-10-26T12:00:00Z",
+                body = "## 9.9.9\nNew things.",
+                assets = new[] { new { name = KspFlightLab.Core.Install.AppUpdater.ExeName, browser_download_url = url, size = exe.Length, digest = "sha256:" + Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(exe)) } },
+            },
+        }));
+
+        ui.Open(MainWindow.SettingsKey);
+        Assert.True(ui.Find<ToggleSwitch>("settings/checkUpdates").IsChecked);
+        ui.Click(ui.Find<Button>("settings/checkNow"));
+        ui.WaitFor(() => ui.Window.AvailableAppUpdate != null, "update found");
+        Assert.StartsWith("Flight Lab 9.9.9 is available", ui.Description("settings/updateStatus"));
+        Assert.Contains("New things.", ui.Description("settings/updateNotes"));
+        Assert.Contains("Flight Lab 9.9.9 is available", ui.Find<TextBlock>("footer/versions").Text);
+
+        // A development build (the test host) never replaces itself.
+        ui.Click(ui.Find<Button>("settings/updateNow"));
+        ui.WaitFor(() => ui.TryFind<TextBlock>("settings/updateResult")?.Text?.Contains("can't replace itself") == true, "refused");
+
+        // The published exe: downloaded, checked, swapped in, restarted with the same options.
+        var current = Path.Combine(TestFolders.Temp("app"), KspFlightLab.Core.Install.AppUpdater.ExeName);
+        File.WriteAllText(current, "MZ old");
+        string? started = null;
+        MainWindow.CurrentExe = current;
+        MainWindow.StartNewVersion = (path, _) => { started = path; return true; };
+        ui.Click(ui.Find<Button>("settings/updateNow"));
+        ui.WaitFor(() => started != null, "restarted");
+        Assert.Equal(exe, File.ReadAllBytes(current));
+        Assert.Equal("MZ old", File.ReadAllText(current + ".old"));
+        MainWindow.CurrentExe = null;
+    }
+
+    [AvaloniaFact]
     public void Settings_change_the_folders_models_tower_and_look()
     {
         using var ui = new UiHarness();

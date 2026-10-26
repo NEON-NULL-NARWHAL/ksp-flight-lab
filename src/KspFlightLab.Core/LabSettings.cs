@@ -12,6 +12,7 @@ namespace KspFlightLab.Core;
 /// <param name="KspFolder">The agents' KSP (for Wingman's mod and kRPC).</param>
 /// <param name="TowerOnStart">Start the KSC tower when Flight Lab starts.</param>
 /// <param name="TowerChat">The tower talks on LMP chat (through the LUNA EVO server plugin).</param>
+/// <param name="CheckForUpdates">Ask GitHub for a newer Flight Lab when it starts.</param>
 public sealed record LabSettings(
     string? ServerFolder = null,
     string? KspFolder = null,
@@ -22,7 +23,8 @@ public sealed record LabSettings(
     bool TowerOnStart = true,
     bool TowerChat = false,
     string AccentColor = LabSettings.DefaultAccent,
-    string Theme = "Dark")
+    string Theme = "Dark",
+    bool CheckForUpdates = true)
 {
     /// <summary>The family's green (Mission Control's and Wingman's too).</summary>
     public const string DefaultAccent = "#3FAE2A";

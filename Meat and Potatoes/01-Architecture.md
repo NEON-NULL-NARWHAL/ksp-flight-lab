@@ -69,7 +69,11 @@ Every source file starts with a header pointing back here:
 dotnet build KspFlightLab.slnx
 dotnet test KspFlightLab.slnx
 dotnet run --project src/KspFlightLab -- --settings D:\somewhere\settings.json
+.\publish.ps1     # dist/KspFlightLab-<version>-win-x64/KspFlightLab.exe
+.\release.ps1     # a GitHub release (chapter 5)
 ```
+
+GitHub Actions (`.github/workflows/tests.yml`) runs every test on Windows for each push.
 
 Tests never touch the network (`LabHttp.Client` is a `FakeHttp`), the real tools folder, or port 8920 (the tower
 starts on a free port). Their folders go in `TEMP/FlightLabTests` and are cleaned up (`TestFolders`). Every new parser of
