@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.1 (2026-10-26)
 
 - A logo of its own, "Flight path": a plane climbing away from the runway on a dashed track (the window, the exe and
   the taskbar; a thicker version at 32 px and below). Before, it borrowed Mission Control's.
